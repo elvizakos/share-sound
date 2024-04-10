@@ -2,6 +2,6 @@
 
 ip="192.168.68.106"
 port="4656"
-
+# pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
 pactl load-module module-tunnel-sink server=tcp:$ip:$port
 pactl set-default-sink "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
