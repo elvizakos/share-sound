@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pactl load-module module-tunnel-sink server=tcp:192.168.68.106:4656
+pactl set-default-sink "$(pactl list short sources | grep 192.168.68.106 | cut -d$'\t' -f1)"
