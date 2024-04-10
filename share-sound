@@ -1,7 +1,53 @@
 #!/bin/bash
 
-ip="192.168.68.106"
-port="4656"
-# pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
-pactl load-module module-tunnel-sink server=tcp:$ip:$port
-pactl set-default-sink "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
+ipset="false"
+portset="false"
+action="set"
+	
+## Read command line:
+while [ $# -gt 0 ]; do
+
+	key="$1"
+
+	case "$1" in
+
+		delete)
+			action="delete"
+			shift
+			;;
+
+		--port)
+			shift
+			port="$1"
+			portset="false"
+			shift
+			;;
+
+		--ip)
+			shift
+			ip="$1"
+			ipset="true"
+			shift
+			;;
+	esac
+
+done
+
+if [ "$ipset" == "false" ]; then
+	ip="192.168.68.106"
+fi
+
+if [ "$portset" == "false" ]; then
+	port="4656"
+fi
+
+if [ "$action" == "set" ]; then
+
+	pactl load-module module-tunnel-sink server=tcp:$ip:$port
+	pactl set-default-sink "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
+
+elif [ "$action" == "delete" ]; then
+
+	pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
+
+fi
