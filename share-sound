@@ -11,7 +11,12 @@ while [ $# -gt 0 ]; do
 
 	case "$1" in
 
-		delete)
+		list)
+			action="list"
+			shift
+			;;
+		
+		del|delete)
 			action="delete"
 			shift
 			;;
@@ -49,5 +54,9 @@ if [ "$action" == "set" ]; then
 elif [ "$action" == "delete" ]; then
 
 	pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
+
+elif [ "$action" == "list" ]; then
+
+	pactl list short sources
 
 fi
