@@ -11,7 +11,12 @@ while [ $# -gt 0 ]; do
 
 	case "$1" in
 
-		delete)
+		list)
+			action="list"
+			shift
+			;;
+		
+		del|delete)
 			action="delete"
 			shift
 			;;
@@ -43,11 +48,16 @@ fi
 
 if [ "$action" == "set" ]; then
 
+	# export PULSE_SERVER=tcp:$ip:$port
 	pactl load-module module-tunnel-sink server=tcp:$ip:$port
 	pactl set-default-sink "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
 
 elif [ "$action" == "delete" ]; then
 
 	pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
+
+elif [ "$action" == "list" ]; then
+
+	pactl list short sources
 
 fi
