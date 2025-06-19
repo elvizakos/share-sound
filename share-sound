@@ -75,7 +75,7 @@ elif [ "$action" == "set server" ]; then
 
 elif [ "$action" == "delete" ]; then
 
-	sid="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1 | head -n1)"
+	sid="$(pactl list short | grep 'server=' | cut -d$'\t' -f1 | head -n1)"
 	[ "$sid" != "" ] && pactl unload-module "$sid"
 	sid="$(pactl list short | grep 'listen=' | cut -d$'\t' -f1 | head -n1)"
 	[ "$sid" != "" ] && pactl unload-module "$sid"
