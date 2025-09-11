@@ -66,6 +66,7 @@ if [ "$action" == "set client" ]; then
 
 	# export PULSE_SERVER=tcp:$ip:$port
 	pactl load-module module-tunnel-sink server=tcp:$ip:$port
+	# pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=48000 format=s16le channels=2 latency_msec=10
 	pactl set-default-sink "$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
 
 elif [ "$action" == "set server" ]; then
@@ -74,8 +75,10 @@ elif [ "$action" == "set server" ]; then
 
 elif [ "$action" == "delete" ]; then
 
-	pactl unload-module "$(pactl list short sources | grep $ip | cut -d$'\t' -f1)"
-	pactl unload-module "$(pactl list short | grep 'listen=' | cut -d$'\t' -f1)"
+	sid="$(pactl list short | grep 'server=' | cut -d$'\t' -f1 | head -n1)"
+	[ "$sid" != "" ] && pactl unload-module "$sid"
+	sid="$(pactl list short | grep 'listen=' | cut -d$'\t' -f1 | head -n1)"
+	[ "$sid" != "" ] && pactl unload-module "$sid"
 
 elif [ "$action" == "list" ]; then
 
