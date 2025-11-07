@@ -62,9 +62,19 @@ while [ $# -gt 0 ]; do
 
 done
 
+prog="pipewire"
+sampleRate=48000
+quantum=1024
+frmt="S16"
+
+if [ "$prog" == "auto" ]; then
+	commnd -v pw-metadata > /dev/null && prog="pipewire"
+fi
+
 if [ "$prog" == "pipewire" ]; then
-	pw-metadata -n settings 0 clock.force-rate 48000
-	pw-metadata -n settings 0 clock.force-quantum 1024
+	pw-metadata -n settings 0 clock.force-rate "$sampleRate"
+	pw-metadata -n settings 0 clock.force-quantum "$quantum"
+	pw-metadata -n settings 0 clock.format $frmt
 fi
 
 if [ "$action" == "set client" ]; then
