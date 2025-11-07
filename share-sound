@@ -62,7 +62,7 @@ while [ $# -gt 0 ]; do
 
 done
 
-prog="pipewire"
+prog="auto"
 sampleRate=48000
 quantum=1024
 frmt="S16"
