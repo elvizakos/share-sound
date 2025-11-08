@@ -68,7 +68,7 @@ while [ $# -gt 0 ]; do
 done
 
 if [ "$prog" == "auto" ]; then
-	commnd -v pw-metadata > /dev/null && prog="pipewire"
+	command -v pw-metadata > /dev/null && prog="pipewire"
 fi
 
 if [ "$prog" == "pipewire" ]; then
