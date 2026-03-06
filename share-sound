@@ -86,7 +86,7 @@ if [ "$action" == "set client" ]; then
 
 elif [ "$action" == "set server" ]; then
 
-	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" auth-anonymous=true
+	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" auth-anonymous=true record=0 playback=1
 
 elif [ "$action" == "delete" ]; then
 
