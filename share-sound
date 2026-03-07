@@ -82,16 +82,24 @@ fi
 
 if [ "$action" == "set client" ]; then
 
-	# export PULSE_SERVER=tcp:$ip:$port
-	pactl load-module module-tunnel-sink server=tcp:$ip:$port
-	sinkname="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
+	pactl unload-module module-tunnel-sink
+	## export PULSE_SERVER=tcp:$ip:$port
+	# pactl load-module module-tunnel-sink server=tcp:$ip:$port
+	# sinkname="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
 	# pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=48000 format=s16le channels=2 latency_msec=10
-	pactl set-port-latency-offset $sinkname -200000
-	pactl set-default-sink $sinkname
+	# pactl set-port-latency-offset $sinkname -200000
+	# pactl set-default-sink $sinkname
 
+	pactl unload-module module-rtp-send
+	pactl load-module module-rtp-send source=them.monitor destication_ip=$ip
 elif [ "$action" == "set server" ]; then
 
-	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" auth-anonymous=true record=0 playback=1
+	pactl unload-module module-native-protocol-tcp
+	pactl load-module module-rtp-recv
+
+	#pactl load-module module-native-protocol-tcp port="$port" listen="$ip" ;latency_msec=50 auth-anonymous=true record=0 playback=1
+
+	pactl load-module module-rtp-recv sink-reciveon latency_msec=50 sap_address=0.0.0.0
 
 elif [ "$action" == "delete" ]; then
 
