@@ -10,8 +10,8 @@ prog="auto"
 sampleRate=44100
 #quantum=1024
 quantum=512
-#frmt="S16"
-frmt="F32"
+frmt="S16"
+#frmt="F32"
 
 ## Read command line:
 while [ $# -gt 0 ]; do
@@ -83,7 +83,7 @@ fi
 if [ "$action" == "set client" ]; then
 
 	# export PULSE_SERVER=tcp:$ip:$port
-	pactl load-module module-tunnel-sink server=udp:$ip:$port
+	pactl load-module module-tunnel-sink server=tcp:$ip:$port
 	sinkname="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
 	# pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=48000 format=s16le channels=2 latency_msec=10
 	pactl set-port-latency-offset $sinkname -200000
@@ -91,7 +91,7 @@ if [ "$action" == "set client" ]; then
 
 elif [ "$action" == "set server" ]; then
 
-	pactl load-module module-native-protocol-udp port="$port" listen="$ip" auth-anonymous=true record=0 playback=1
+	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" auth-anonymous=true record=0 playback=1
 
 elif [ "$action" == "delete" ]; then
 
