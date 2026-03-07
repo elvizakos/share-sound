@@ -86,8 +86,8 @@ if [ "$action" == "set client" ]; then
 	pactl load-module module-tunnel-sink server=tcp:$ip:$port
 	sinkname="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
 	# pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=48000 format=s16le channels=2 latency_msec=10
-	pactl set-default-sink $sinkname
 	pactl set-port-latency-offset $sinkname -200000
+	pactl set-default-sink $sinkname
 
 elif [ "$action" == "set server" ]; then
 
