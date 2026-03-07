@@ -98,7 +98,7 @@ elif [ "$action" == "set server" ]; then
 
 	pactl unload-module module-native-protocol-tcp
 
-	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" rate=$sampleRate # latency_msec=50 auth-anonymous=true record=0 playback=1
+	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" rate=$sampleRate auth-anonymous=true # latency_msec=50 record=0 playback=1
 
 	# pactl unload-module module-rtp-recv
 	# pactl load-module module-rtp-recv sink-reciveon latency_msec=50 sap_address=0.0.0.0
