@@ -87,8 +87,8 @@ if [ "$action" == "set client" ]; then
 	pactl unload-module module-tunnel-sink
 	sinkname="$(pactl list short sources | grep "$ip" | cut -d$'\t' -f1)"
 	
-	pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=$sampleRate format=s16le channels=2 latency_msec=10
-	pactl set-port-latency-offset $sinkname -200000
+	pactl load-module module-tunnel-sink server=tcp:$ip:$port tsched=1 rate=$sampleRate format=s16le channels=2 latency_msec=50
+	# pactl set-port-latency-offset $sinkname -200000
 	pactl set-default-sink $sinkname
 
 	# pactl unload-module module-rtp-send
@@ -98,7 +98,7 @@ elif [ "$action" == "set server" ]; then
 
 	pactl unload-module module-native-protocol-tcp
 
-	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" rate=$sampleRate auth-anonymous=true # latency_msec=50 record=0 playback=1
+	pactl load-module module-native-protocol-tcp port="$port" listen="$ip" rate=$sampleRate auth-anonymous=true latency_msec=50 # record=0 playback=1
 
 	# pactl unload-module module-rtp-recv
 	# pactl load-module module-rtp-recv sink-reciveon latency_msec=50 sap_address=0.0.0.0
