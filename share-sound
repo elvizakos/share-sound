@@ -6,8 +6,8 @@ port="4656"
 action="set client"
 
 prog="auto"
-sampleRate=48000
-#sampleRate=44100
+#sampleRate=48000
+sampleRate=44100
 quantum=1024
 #quantum=512
 frmt="S16"
