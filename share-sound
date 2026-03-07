@@ -8,7 +8,8 @@ action="set client"
 prog="auto"
 sampleRate=48000
 quantum=1024
-frmt="S16"
+#frmt="S16"
+frmt="F32"
 
 ## Read command line:
 while [ $# -gt 0 ]; do
